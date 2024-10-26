@@ -279,13 +279,14 @@ function Home() {
               {investments.map((investment) => (
                 <li key={investment._id} className="investment-item">
                   <h4>{investment.name}</h4>
-                  <p>Invested: ${investment.currentInvestment.toFixed(2)}</p>
+                  <p>Your Investment: ${investment.userInvestment ? investment.userInvestment.toFixed(2) : '0.00'}</p>
+                  <p>Shares Owned: {investment.userInvestment ? Math.floor(investment.userInvestment / 100) : 0}</p>
                   <p>Expected Return: {investment.expectedReturn}%</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No investments yet. Start investing in projects below!</p>
+            <p>No investments found. Start investing in projects below!</p>
           )}
         </div>
       </div>
@@ -308,8 +309,9 @@ function Home() {
                   ></div>
                 </div>
                 <p className="progress-text">
-                  ${project.currentInvestment.toFixed(2)} / ${project.totalInvestment.toFixed(2)}
+                  {Math.floor(project.currentInvestment / 100)} / {Math.floor(project.totalInvestment / 100)} shares
                 </p>
+                <p className="share-price">Price per share: $100</p>
               </div>
             ))}
           </div>
@@ -331,16 +333,17 @@ function Home() {
         ></div>
       </div>
       <p className="progress-text">
-        ${project.currentInvestment.toFixed(2)} / ${project.totalInvestment.toFixed(2)}
+        {Math.floor(project.currentInvestment / 100)} / {Math.floor(project.totalInvestment / 100)} shares
       </p>
+      <p className="share-price">Price per share: $100</p>
       <form onSubmit={(e) => { e.preventDefault(); handleInvest(project._id); }} className="invest-form">
         <input
           type="number"
           value={investmentAmount}
           onChange={(e) => setInvestmentAmount(e.target.value)}
-          placeholder="Investment amount"
-          min="0"
-          step="0.01"
+          placeholder="Number of shares"
+          min="1"
+          step="1"
         />
         <button type="submit" className="btn-primary">Invest</button>
       </form>

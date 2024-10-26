@@ -400,3 +400,9 @@
 }
 
 /* You can remove the .sourverse-button-container styles if they're no longer needed */
+
+.share-price {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 5px;
+}
