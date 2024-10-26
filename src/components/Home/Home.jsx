@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FaSun, FaWallet, FaChartLine, FaSignOutAlt } from 'react-icons/fa';
+import { FaSun, FaWallet, FaChartLine, FaSignOutAlt, FaGlobe } from 'react-icons/fa';
 import './Home.css';
+import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
@@ -21,6 +22,8 @@ function Home() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [walletBalance, setWalletBalance] = useState(0);
   const [addFundsAmount, setAddFundsAmount] = useState('');
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (userId) {
@@ -233,6 +236,12 @@ function Home() {
     }
   };
 
+  const navigateToSourVerse = () => {
+    // Replace this with the actual navigation logic to SourVerse
+    navigate('/verse');
+    // For example: history.push('/sourverse') or window.location.href = '/sourverse'
+  };
+
   const renderDashboard = () => (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -240,6 +249,14 @@ function Home() {
         <p className="balance">Wallet Balance: ${walletBalance.toFixed(2)}</p>
       </div>
       <div className="dashboard-grid">
+        <div className="sourverse-section">
+          <h3><FaGlobe /> SourVerse Ecosystem</h3>
+          <p>Explore the future of decentralized energy</p>
+          <button onClick={navigateToSourVerse} className="btn-sourverse">
+            <FaGlobe /> Explore SourVerse
+          </button>
+        </div>
+
         <div className="wallet-section">
           <h3><FaWallet /> Add Funds</h3>
           <form onSubmit={handleAddFunds} className="add-funds-form">
