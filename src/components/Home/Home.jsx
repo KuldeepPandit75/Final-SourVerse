@@ -42,7 +42,7 @@ function Home() {
         return;
       }
       console.log('Fetching user profile for ID:', userId);
-      const response = await fetch(`http://localhost:5000/api/profile?userId=${userId}`);
+      const response = await fetch(`https://sourverse-backend.onrender.com/api/profile?userId=${userId}`);
       console.log('Profile response status:', response.status);
       const data = await response.json();
       console.log('Profile data:', data);
@@ -59,7 +59,7 @@ function Home() {
 
   const fetchInvestments = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/investments?userId=${userId}`);
+      const response = await fetch(`https://sourverse-backend.onrender.com/api/investments?userId=${userId}`);
       const data = await response.json();
       if (response.ok) {
         setInvestments(data);
@@ -74,7 +74,7 @@ function Home() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/projects');
+      const response = await fetch('https://sourverse-backend.onrender.com/api/projects');
       const data = await response.json();
       if (response.ok) {
         setProjects(data);
@@ -89,7 +89,7 @@ function Home() {
   const fetchWalletBalance = async () => {
     try {
       console.log('Fetching wallet balance for user ID:', userId);
-      const response = await fetch(`http://localhost:5000/api/wallet?userId=${userId}`);
+      const response = await fetch(`https://sourverse-backend.onrender.com/api/wallet?userId=${userId}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
@@ -111,7 +111,7 @@ function Home() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch('https://sourverse-backend.onrender.com/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ function Home() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('https://sourverse-backend.onrender.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ function Home() {
         return;
       }
       console.log('Adding funds:', addFundsAmount);
-      const response = await fetch('http://localhost:5000/api/wallet/add', {
+      const response = await fetch('https://sourverse-backend.onrender.com/api/wallet/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ function Home() {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/invest', {
+      const response = await fetch('https://sourverse-backend.onrender.com/api/invest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
