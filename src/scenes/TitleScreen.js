@@ -223,7 +223,6 @@ class TitleScreen extends Phaser.Scene {
 
     videoButtonPhaser.on("pointerup", () => {
       console.log("Video button clicked!");
-      // Add your video logic here
     });
 
     // Remove the speech bubble, buttons, and avatar after 3 seconds
