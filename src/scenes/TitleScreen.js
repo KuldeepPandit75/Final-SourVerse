@@ -104,7 +104,8 @@ class TitleScreen extends Phaser.Scene {
 
       if (player.id === this.socket.id) {
         this.player = playerSprite;
-        this.cameras.main.startFollow(this.player);
+        // Remove the camera follow
+        // this.cameras.main.startFollow(this.player);
       }
     }
   }
@@ -127,7 +128,13 @@ class TitleScreen extends Phaser.Scene {
         velocityY = speed;
       }
 
-      this.player.setVelocity(velocityX, velocityY);
+      // Update player position directly instead of using velocity
+      this.player.x += velocityX * this.sys.game.loop.delta / 1000;
+      this.player.y += velocityY * this.sys.game.loop.delta / 1000;
+
+      // Ensure the player stays within the world bounds
+      this.player.x = Phaser.Math.Clamp(this.player.x, 0, this.cameras.main.width);
+      this.player.y = Phaser.Math.Clamp(this.player.y, 0, this.cameras.main.height);
 
       // Emit player movement
       const { x, y } = this.player;
@@ -157,7 +164,7 @@ class TitleScreen extends Phaser.Scene {
     videoButton.style.display = "none";
 
     // Add avatar image
-    // const avatar = this.add.image(150, 400, "avatar").setScale(2);
+    const avatar = this.add.image(150, 400, "avatar").setScale(2);
 
     // Create a speech bubble background
     const bubble = this.add.graphics({ fillStyle: { color: 0xffffff } });
@@ -191,7 +198,7 @@ class TitleScreen extends Phaser.Scene {
       .setInteractive();
 
     readMore.on("pointerup", () => {
-      window.open("https://your-link.com", "_blank"); // Open link in a new tab
+      window.open("https://en.wikipedia.org/wiki/Solar_energy", "_blank"); // Open link in a new tab
     });
 
     // Create "Pay" button
@@ -229,7 +236,7 @@ class TitleScreen extends Phaser.Scene {
     this.time.delayedCall(10, () => {
       stallInfo.destroy();
       bubble.destroy();
-    //   avatar.destroy();
+      avatar.destroy();
       readMore.destroy();
       payButton.destroy();
       videoButtonPhaser.destroy();

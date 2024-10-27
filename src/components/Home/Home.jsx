@@ -42,7 +42,7 @@ function Home() {
         return;
       }
       console.log('Fetching user profile for ID:', userId);
-      const response = await fetch(`https://sourverse-backend.onrender.com/api/profile?userId=${userId}`);
+      const response = await fetch(`http://localhost:5000/api/profile?userId=${userId}`);
       console.log('Profile response status:', response.status);
       const data = await response.json();
       console.log('Profile data:', data);
@@ -59,7 +59,7 @@ function Home() {
 
   const fetchInvestments = async () => {
     try {
-      const response = await fetch(`https://sourverse-backend.onrender.com/api/investments?userId=${userId}`);
+      const response = await fetch(`http://localhost:5000/api/investments?userId=${userId}`);
       const data = await response.json();
       if (response.ok) {
         setInvestments(data);
@@ -74,7 +74,7 @@ function Home() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('https://sourverse-backend.onrender.com/api/projects');
+      const response = await fetch('http://localhost:5000/api/projects');
       const data = await response.json();
       if (response.ok) {
         setProjects(data);
@@ -89,7 +89,7 @@ function Home() {
   const fetchWalletBalance = async () => {
     try {
       console.log('Fetching wallet balance for user ID:', userId);
-      const response = await fetch(`https://sourverse-backend.onrender.com/api/wallet?userId=${userId}`);
+      const response = await fetch(`http://localhost:5000/api/wallet?userId=${userId}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
@@ -111,7 +111,7 @@ function Home() {
     }
 
     try {
-      const response = await fetch('https://sourverse-backend.onrender.com/api/register', {
+      const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ function Home() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://sourverse-backend.onrender.com/api/login', {
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ function Home() {
         return;
       }
       console.log('Adding funds:', addFundsAmount);
-      const response = await fetch('https://sourverse-backend.onrender.com/api/wallet/add', {
+      const response = await fetch('http://localhost:5000/api/wallet/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ function Home() {
         return;
       }
 
-      const response = await fetch('https://sourverse-backend.onrender.com/api/invest', {
+      const response = await fetch('http://localhost:5000/api/invest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -235,7 +235,6 @@ function Home() {
       setMessage('An error occurred while processing the investment');
     }
   };
-
   const navigateToSourVerse = () => {
     // Replace this with the actual navigation logic to SourVerse
     navigate('/verse');
@@ -256,7 +255,6 @@ function Home() {
             <FaGlobe /> Explore SourVerse
           </button>
         </div>
-
         <div className="wallet-section">
           <h3><FaWallet /> Add Funds</h3>
           <form onSubmit={handleAddFunds} className="add-funds-form">
@@ -279,14 +277,13 @@ function Home() {
               {investments.map((investment) => (
                 <li key={investment._id} className="investment-item">
                   <h4>{investment.name}</h4>
-                  <p>Your Investment: ${investment.userInvestment ? investment.userInvestment.toFixed(2) : '0.00'}</p>
-                  <p>Shares Owned: {investment.userInvestment ? Math.floor(investment.userInvestment / 100) : 0}</p>
+                  <p>Invested: ${investment.currentInvestment.toFixed(2)}</p>
                   <p>Expected Return: {investment.expectedReturn}%</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No investments found. Start investing in projects below!</p>
+            <p>No investments yet. Start investing in projects below!</p>
           )}
         </div>
       </div>
@@ -309,9 +306,8 @@ function Home() {
                   ></div>
                 </div>
                 <p className="progress-text">
-                  {Math.floor(project.currentInvestment / 100)} / {Math.floor(project.totalInvestment / 100)} shares
+                  ${project.currentInvestment.toFixed(2)} / ${project.totalInvestment.toFixed(2)}
                 </p>
-                <p className="share-price">Price per share: $100</p>
               </div>
             ))}
           </div>
@@ -333,17 +329,16 @@ function Home() {
         ></div>
       </div>
       <p className="progress-text">
-        {Math.floor(project.currentInvestment / 100)} / {Math.floor(project.totalInvestment / 100)} shares
+        ${project.currentInvestment.toFixed(2)} / ${project.totalInvestment.toFixed(2)}
       </p>
-      <p className="share-price">Price per share: $100</p>
       <form onSubmit={(e) => { e.preventDefault(); handleInvest(project._id); }} className="invest-form">
         <input
           type="number"
           value={investmentAmount}
           onChange={(e) => setInvestmentAmount(e.target.value)}
-          placeholder="Number of shares"
-          min="1"
-          step="1"
+          placeholder="Investment amount"
+          min="0"
+          step="0.01"
         />
         <button type="submit" className="btn-primary">Invest</button>
       </form>
